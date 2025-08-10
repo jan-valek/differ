@@ -1,0 +1,9 @@
+﻿services:
+  differ1:
+    image: differ1
+    ports:
+      - 5123:8080
+    build:
+      context: .
+      dockerfile: Differ1/Dockerfile
+
