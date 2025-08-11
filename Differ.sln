@@ -1,12 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Differ", "Differ\Differ.csproj", "{1FCBC5A3-AAAA-4F43-93CC-3E29C915736F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{17BCE108-BCA5-442F-918F-8DD14540BCA1}"
 	ProjectSection(SolutionItems) = preProject
-		compose.yaml = compose.yaml
 		.gitignore = .gitignore
+		docker-compose.yml = docker-compose.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Differ.IntegrationTests", "Differ.IntegrationTests\Differ.IntegrationTests.csproj", "{952E1FD1-0640-4E85-A298-47C6A078D7AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +21,9 @@ Global
 		{1FCBC5A3-AAAA-4F43-93CC-3E29C915736F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FCBC5A3-AAAA-4F43-93CC-3E29C915736F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FCBC5A3-AAAA-4F43-93CC-3E29C915736F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{952E1FD1-0640-4E85-A298-47C6A078D7AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{952E1FD1-0640-4E85-A298-47C6A078D7AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{952E1FD1-0640-4E85-A298-47C6A078D7AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{952E1FD1-0640-4E85-A298-47C6A078D7AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

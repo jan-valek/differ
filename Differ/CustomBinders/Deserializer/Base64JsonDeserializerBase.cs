@@ -1,7 +1,11 @@
 using System.Text.Json;
+using Differ.Models;
 
 namespace Differ.CustomBinders.Deserializer;
 
+/// <summary>
+/// Base class for deserializers. Contains methods that cann be used for collecting data. 
+/// </summary>
 internal abstract class Base64JsonDeserializerBase(ILogger logger)
 {
     protected async Task<Result<object?>> TryDeserializeObjectAsync(MemoryStream jsonStream, Type targetType)

@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: differ-mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Dx774hgu22@suzi
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+    networks:
+      - differ-network    
+
+  differ-api:
+    build:
+      context: .
+      dockerfile: Differ/Dockerfile
+    container_name: differ-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=mssql;Database=DifferDb;User Id=sa;Password=Dx774hgu22@suzi;TrustServerCertificate=true
+    ports:
+      - "5000:80"
+    depends_on:
+      - mssql        
+    networks:
+      - differ-network
+
+volumes:
+  mssql-data:
+
+networks:
+  differ-network:
+    driver: bridge

@@ -1,14 +1,17 @@
 using System.Text;
+using Differ.Models;
 
 namespace Differ.CustomBinders.Deserializer;
 
-internal class Base64JsonToObjectDeserializer(ILogger<Base64JsonToObjectDeserializer> logger) : Base64JsonDeserializerBase(logger),IBase64JsonDeserializer
+/// <summary>
+/// Deserialize base64encoded json to targettype requested by model binder. 
+/// </summary>
+internal class Base64JsonToObjectDeserializer(ILogger<Base64JsonToObjectDeserializer> logger) : Base64JsonDeserializerBase(logger), IBase64JsonDeserializer
 {
-    public async Task<Result<Object?>> DeserializeAsync(Stream stream,
-        Type targetType, Encoding encoding)
+    public async Task<Result<Object?>> DeserializeAsync(Stream stream, Type targetType, Encoding encoding)
     {
         ArgumentNullException.ThrowIfNull(stream);
-
+        
         var base64Result = await TryGetBase64StringAsync(stream);
         if (!base64Result.IsSuccess) return new Result<object?>(null,base64Result.ErrorMessage);
 
@@ -19,7 +22,6 @@ internal class Base64JsonToObjectDeserializer(ILogger<Base64JsonToObjectDeserial
         var deserializationResult = await TryDeserializeObjectAsync(jsonStream,targetType);
         if (!deserializationResult.IsSuccess) return new Result<object?>(null, deserializationResult.ErrorMessage);
 
-        // TODO: Otestovat jestli jak se to zachova kdyz to bude null na vstupu nebo spis prazdnej string
         if (deserializationResult.Value is null) return new Result<object?>(null, "Error while deserializing");
 
         return deserializationResult with { ErrorMessage = null };

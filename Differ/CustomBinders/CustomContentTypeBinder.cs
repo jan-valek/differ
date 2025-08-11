@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Differ.CustomBinders;
 
+/// <summary>
+/// Custom modelbinder for application/custom media type.
+/// </summary>
 internal class CustomContentTypeBinder(IBase64JsonDeserializer deserializer) : IModelBinder
 {
     public async Task BindModelAsync(ModelBindingContext bindingContext)

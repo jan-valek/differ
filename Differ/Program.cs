@@ -1,15 +1,10 @@
-using Differ.CustomBinders;
-using Differ.CustomBinders.Deserializer;
-using Microsoft.AspNetCore.Mvc;
+using Differ.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSingleton<CustomContentTypeProvider>();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddSingleton<CustomContentTypeBinder>();
-builder.Services.AddSingleton<IBase64JsonDeserializer, Base64JsonToObjectDeserializer>();
-builder.Services.Configure<MvcOptions>(opt => opt.ModelBinderProviders.Add(new CustomContentTypeProvider()));
 
-
+builder.Services.RegisterCustomContentTypeModelBinder();
+builder.Services.RegisterStringComparerService();
+builder.Services.RegisterDb(builder.Configuration);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -17,6 +12,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.RunMigration();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -25,9 +21,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
+app.MapGet("/health", () => Results.Ok(new { status = "healthy", timestamp = DateTime.UtcNow })).WithName("HealthCheck");
 
 app.Run();

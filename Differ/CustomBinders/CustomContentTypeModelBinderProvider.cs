@@ -2,14 +2,14 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Differ.CustomBinders;
 
-public class CustomContentTypeProvider:IModelBinderProvider
+public class CustomContentTypeModelBinderProvider:IModelBinderProvider
 {
     public const string SupportedMediaType = "application/custom";
     
     public IModelBinder? GetBinder(ModelBinderProviderContext context)
     {
         // because dotnet, doesnt allow add the binder provider by type from DI.
-        var logger = context.Services.GetRequiredService<ILogger<CustomContentTypeProvider>>();
+        var logger = context.Services.GetRequiredService<ILogger<CustomContentTypeModelBinderProvider>>();
         
         if (context.BindingInfo.BindingSource != BindingSource.Body)
         {

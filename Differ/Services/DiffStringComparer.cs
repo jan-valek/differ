@@ -5,16 +5,19 @@ namespace Differ.Services;
 
 public class DiffStringComparer : IDiffStringComparer
 {
-    public ComparisonResult Compare(string a, string b)
+    /// <summary>
+    /// Compare two strings and return status.
+    /// </summary>
+    public ComparisonResult Compare(string inputA, string inputB)
     {
-        if (a == null) a = string.Empty;
-        if (b == null) b = string.Empty;
-        
-        if (a.Length != b.Length) return CreateResult(ComparisonStatus.DifferentSize);
-        
-        if (string.CompareOrdinal(a,b)==0) return CreateResult(ComparisonStatus.Equal);
-        
-        var differences = CalculateDifferenceBlocks(a, b);
+        if (string.IsNullOrEmpty(inputA)) inputA = string.Empty;
+        if (string.IsNullOrEmpty(inputB)) inputB = string.Empty;
+
+        if (inputA.Length != inputB.Length) return CreateResult(ComparisonStatus.DifferentSize);
+
+        if (string.CompareOrdinal(inputA, inputB) == 0) return CreateResult(ComparisonStatus.Equal);
+
+        var differences = CalculateDifferenceBlocks(inputA, inputB);
 
         return new ComparisonResult
         {
@@ -23,14 +26,17 @@ public class DiffStringComparer : IDiffStringComparer
         };
     }
 
-    private static List<DifferenceBlock> CalculateDifferenceBlocks(string a, string b)
+    /// <summary>
+    /// Internal algorithm for calculating difference blogs.
+    /// </summary>
+    private static List<DifferenceBlock> CalculateDifferenceBlocks(string inputA, string inputB)
     {
         var differences = new List<DifferenceBlock>();
         int? diffStart = null;
-        
-        for (var i = 0; i <= a.Length; i++)
+
+        for (var i = 0; i <= inputA.Length; i++)
         {
-            var isDifferent = i < a.Length && a[i] != b[i];
+            var isDifferent = i < inputA.Length && inputA[i] != inputB[i];
 
             switch (isDifferent)
             {
@@ -49,7 +55,8 @@ public class DiffStringComparer : IDiffStringComparer
 
     private static void AddNewDiffBlock(List<DifferenceBlock> differences, [DisallowNull] int? diffStart, int i)
     {
-        differences.Add(new DifferenceBlock {
+        differences.Add(new DifferenceBlock
+        {
             Offset = diffStart.Value,
             Length = i - diffStart.Value
         });
